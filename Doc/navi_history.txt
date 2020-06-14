@@ -1,11 +1,154 @@
 
 Navigation WebServer with React
+2020-06-14
 
+- Front-End
+	- create react project
+		- yarn create react-app ~~
+		- yarn add react-router-dom
+			- page manage
+		- yarn add styled-components
+			- ui
+	- show kakao map
+	- add semantic-ui-react
+	- show journey, landmark list
+	- mongodb migration
+		- mysql -> mongodb
+	- mongo-cxx-driver
+		- c++ accesss mongodb
+- Back-End
+	- create koa webserver with react-app
+	- add koa, mongoose, dotenv, esm, nodemon
+	- add koa-router
+	- setup koa webserver start
+	- .env config file
+		- create .env file
+			- webserver port
+			- mongodb url
+	- create jsconfig.json
+		- to coding productivity
+		- require -> import
+	- index.js, main.js setting
+		- read .env file and apply
+	- access mongodb
+		- create models/api
+	- create models/journey.js
+		- create schema journeys colletion to Journey
+	- create api/journey/journey.ctrl.js
+		- api/journey/index.js
+	- implements get journey list
+		- journey.ctrl.js
+		- GET /api/journey?page=
+	- implements api/journey/index.js
+		- koa-router Router
+	- create api/index.js
+		- use journeys router
+	- ./index.js
+		- add root router
+		- use api routerr
+			- root.use('./api', api.routes())
+			- app.use(root.routes()).use(root.allowedMethods());
+	- test journeys api with postman
+		- localhost:4000/api/journeys/
+- Front-End
+	- get journey list from webserver koa webserver framework
+		- localhost:4000/api/journeys
+	- add axios
+		- http client
+		- get data from webserver
+		- yarn add axios
+	- create ./lib/api/client.js
+		- add axios instance
+	- add Query parsing library
+		- yarn add qs
+	- ./lib/api/journey.js
+		- get journeylist from webserver
+	- ./modules/journey.js
+		- redux data manager
+		- yarn add redux react-redux redux-actions
+		- yarn add redux-saga
+		- implements redux action
+			- LIST_JOURNEYS, SUCCESS, FAILURE 
+			- ./lib/createRequestSaga.js
+			- ./modules/loading.js
+	- create redux, redux-saga instance
+		- ./modulues/index.js
+			- rootReducer, rootSage
+	- yarn add redux-devtools-extension
+	- ./index.js
+		- register redux store, saga
+	- journeylist api communication
+		- container/JourneyListContainer.js
+			- redux
+				- useDispatch, useSelector
+			- useEffect
+				- request journey list to webserver
+			- show JourneyList component
+			- pages/Journeys.js
+				- replace JourneyList -> JourneyListContainer
+		- proxy setting for api communication
+			- package.json
+			- add "proxy" : "http://localhost:4000/"
+			- server restart
+- journeylist pagination
+	- Front-End
+		- localhost:3000?page=1
+		- withRouter(JourneyListContainer);
+	- Back-End
+		- api/journeys/journeys.ctrl.js
+			- list api
+				- page parsing
+				- return journey list pagination
+	- Front-End
+		- page button
+		- react semantic-ui table footer Menu.Item
+			- Menu.Item disabled, as={Link} key, to
+			- import {Link} from 'react-router-dom';
+- landmark list
+	- Back-End
+		- models/landmark.js
+			- LandMarkSchema
+		- api/landmarks/landmarks.ctrl.js
+		- api/landmarks/index.js
+		- modify api/index.js
+	- Postman test
+		- GET localhost:4000/api/landmarks
+	- Front-End
+		- lib/api/landmarks.js
+			- communication with webserver
+		- landmarks redux
+			- modules/landmarks.js
+				- reference journeys.js
+			- modules/index.js
+				- add landmarks reducer, saga
+		- components/LandmarkList.js
+			- reference JourneyList.js
+		- containers/LandmarkListContainer.js
+		- pages/Journey.js
+			- add LandmarkListContainer
+- get journey path
+	- Back-End
+		- models/path.js
+		- api/paths/index.js
+		- api/paths/paths.ctrl.js
+			- GET /api/paths?timeid=
+		- api/index.js
+			- add router
+		- Postman test GET localhost:4000/api/paths?timeid=
+		- mongodb collection rename
+			- navi.path -> navi.paths
+	- Front-End
+		- lib/api/paths.js
+		- path redux
+			- modules/paths.js
+				- redux setting
+			- moduels/index.js
+				- add pths reducer, saga
+		- pages/Journey.js
+			- test code
+				- add button
+					- click request path
+			- add containers/MapContainer.js
+			
 
-- create react project
-	- yarn create react-app ~~
-	- yarn add react-router-dom
-		- page manage
-	- yarn add styled-components
-		- ui
 
