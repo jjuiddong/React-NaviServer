@@ -3,13 +3,13 @@ Navigation Webserver
 
 - Font-End
 	- Journey Page
-		- journey list
+		-★ journey list
 			- index, id, date, distance, time
 			- check show/hide journey path
 		- landmark list
-			- index, id, date, address, comment
+			-★ index, id, date, address, comment
 		- map
-			- journey path
+			-★ journey path
 		- dialog
 			- detail journey info
 			- edit landmark comment
@@ -29,8 +29,8 @@ Navigation Webserver
 
 - Back-End
 	- api
-		- Journey List
-		- Landmark List
-		- Path List
+		-★ Journey List
+		-★ Landmark List
+		-★ Path List
 
 -------------------------------------------------------------

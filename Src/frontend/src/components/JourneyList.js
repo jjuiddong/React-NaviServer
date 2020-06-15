@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Icon, Menu, Table } from "semantic-ui-react";
+import { Icon, Menu, Table, Checkbox } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import qs from "qs";
 
-const JourneyList = ({ journeys, loading, curPage, lastPage, error }) => {
+const JourneyList = ({
+  journeys,
+  loading,
+  curPage,
+  lastPage,
+  error,
+  shows,
+  onShowPath,
+}) => {
   const [pages, setPages] = useState([]);
   const [prev, setPrev] = useState(-1);
   const [next, setNext] = useState(-1);
@@ -17,8 +25,8 @@ const JourneyList = ({ journeys, loading, curPage, lastPage, error }) => {
       ar.push(i + 1);
     }
     setPages(ar);
-    setPrev(sp === 0? -1 : sp);
-    setNext(ep === lastPage? -1: ep+1);
+    setPrev(sp === 0 ? -1 : sp);
+    setNext(ep === lastPage ? -1 : ep + 1);
   }, [curPage, lastPage]);
 
   const buildLink = ({ page }) => {
@@ -28,13 +36,14 @@ const JourneyList = ({ journeys, loading, curPage, lastPage, error }) => {
 
   return (
     <div>
-      <Table celled>
+      <Table celled striped>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>User</Table.HeaderCell>
-            <Table.HeaderCell>Date</Table.HeaderCell>
-            <Table.HeaderCell>Distance</Table.HeaderCell>
-            <Table.HeaderCell>Journey Time</Table.HeaderCell>
+            <Table.HeaderCell width={1}>Show</Table.HeaderCell>
+            <Table.HeaderCell width={3}>User</Table.HeaderCell>
+            <Table.HeaderCell width={3}>Date</Table.HeaderCell>
+            <Table.HeaderCell width={3}>Distance</Table.HeaderCell>
+            <Table.HeaderCell width={3}>Journey Time</Table.HeaderCell>
             <Table.HeaderCell>Detail</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -43,17 +52,26 @@ const JourneyList = ({ journeys, loading, curPage, lastPage, error }) => {
             journeys &&
             journeys.map((item, i) => (
               <Table.Row key={i * 1000}>
-                <Table.Cell key={i * 1000 + 1}>jjuiddong</Table.Cell>
-                <Table.Cell key={i * 1000 + 2}>
+                <Table.Cell key={i * 1000 + 1}>
+                  <Checkbox
+                    slider
+                    onClick={onShowPath}
+                    index={i}
+                    name={item.date}
+                    checked={shows[i]}
+                  ></Checkbox>
+                </Table.Cell>
+                <Table.Cell key={i * 1000 + 2}>jjuiddong</Table.Cell>
+                <Table.Cell key={i * 1000 + 3}>
                   {item.date.slice(0, 10)}
                 </Table.Cell>
-                <Table.Cell key={i * 1000 + 3}>
+                <Table.Cell key={i * 1000 + 4}>
                   {(item.distance / 1000).toFixed(3)} Km
                 </Table.Cell>
-                <Table.Cell key={i * 1000 + 4}>
+                <Table.Cell key={i * 1000 + 5}>
                   {(item.journey_time / (1000 * 60 * 60)).toFixed(1)} Hour
                 </Table.Cell>
-                <Table.Cell key={i * 1000 + 5}>Detail</Table.Cell>
+                <Table.Cell key={i * 1000 + 6}>Detail</Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>
@@ -62,10 +80,12 @@ const JourneyList = ({ journeys, loading, curPage, lastPage, error }) => {
           <Table.Row>
             <Table.HeaderCell colSpan="6">
               <Menu floated="right" pagination>
-                <Menu.Item disabled={prev===-1} 
-                as={prev===-1? "" : Link}
-                to={buildLink({ page: prev })}
-                icon>
+                <Menu.Item
+                  disabled={prev === -1}
+                  as={prev === -1 ? "" : Link}
+                  to={buildLink({ page: prev })}
+                  icon
+                >
                   <Icon name="chevron left" />
                 </Menu.Item>
 
@@ -80,11 +100,12 @@ const JourneyList = ({ journeys, loading, curPage, lastPage, error }) => {
                   </Menu.Item>
                 ))}
 
-                <Menu.Item 
-                disabled={next===-1} 
-                as={next===-1? "" : Link}
-                to={buildLink({ page: next })}
-                icon>
+                <Menu.Item
+                  disabled={next === -1}
+                  as={next === -1 ? "" : Link}
+                  to={buildLink({ page: next })}
+                  icon
+                >
                   <Icon name="chevron right" />
                 </Menu.Item>
               </Menu>

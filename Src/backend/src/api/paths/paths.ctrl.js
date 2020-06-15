@@ -14,6 +14,7 @@ export const read = async (ctx) => {
       //.sort({ _id: -1 })
       .exec();
     ctx.body = paths;
+    ctx.set("timeid", ctx.query.timeid);
   } catch (e) {
     ctx.throw(500, e);
   }

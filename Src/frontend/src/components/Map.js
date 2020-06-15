@@ -8,7 +8,7 @@ const MapBlock = styled.div`
   background-color: black;
 `;
 
-const Map = ({ paths, loading }) => {
+const Map = ({ path, timeid, jpaths, loading }) => {
   const [_map, setMap] = useState(null);
 
   useEffect(() => {
@@ -35,24 +35,17 @@ const Map = ({ paths, loading }) => {
   }, []);
 
   useEffect(() => {
-    if (paths) {
-      const { kakao } = window;
-      var linePath = [];
-      paths.map((item) =>
-        linePath.push(
-          new kakao.maps.LatLng(parseFloat(item.lat), parseFloat(item.lon))
-        )
-      );
-      var polyline = new kakao.maps.Polyline({
-        path: linePath,
-        strokeWeight: 5,
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
-        strokeStyle: "solid",
+    // console.log("change paths");
+    // console.log(jpaths);
+    if (jpaths) {
+      jpaths.forEach(journey => {
+        if (journey.show)
+          journey.polyline.setMap(_map);
+        else
+          journey.polyline.setMap(null);
       });
-      polyline.setMap(_map);
     }
-  }, [paths, _map]);
+  }, [jpaths]);
 
   return (
     <div>

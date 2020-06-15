@@ -149,6 +149,29 @@ Navigation WebServer with React
 				- add button
 					- click request path
 			- add containers/MapContainer.js
-			
+- show/hide journey path
+	- Back-End
+		- api/paths/paths.ctrl.js
+			- add timeid
+	- Front-End
+		- components/JourneyList.js
+			- add checkbox
+				- fail
+	- Back-End
+		- api/paths/paths.ctrl.js
+			- add update journey info
+				- fail
+	- Front-End
+		- containers/JourneyListContainer.js
+			- add shows array state
+				- const [shows, setShows] = useState([10]); // show/hide checkbox
+		- components/JourneyList.js
+			- show/hide checkbox reference JourneyListContainer shows
+		- path redux
+			- modules/paths.js
+			- components/Map.js
+			- containers/MapContainer.js
+				- modify jpath, path
+			- write all path control code in redux (modules/paths.js)
 
 

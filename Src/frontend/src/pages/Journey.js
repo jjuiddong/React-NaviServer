@@ -34,7 +34,6 @@ const Journey = () => {
 
   return (
     <div>
-      Journey Page
       <MapContainer></MapContainer>
       <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
     </div>
