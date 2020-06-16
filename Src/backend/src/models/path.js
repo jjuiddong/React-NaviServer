@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 const PathSchema = new Schema({
-  date_time: Date,
-  user_id: Number,
+  date_time: String,
+  user_id: String,
   journey_time_id: String,
   lon: Number,
   lat: Number,

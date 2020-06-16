@@ -173,5 +173,50 @@ Navigation WebServer with React
 			- containers/MapContainer.js
 				- modify jpath, path
 			- write all path control code in redux (modules/paths.js)
+		- JourneyList checkbox redux
+			- move checkbox state modules/paths.js
+				- SHOW_PATH, HIDE_PATH, TOGGLE_SHOW_PATH
+- fullscreen pages/live.js
+	- Map.js css
+	- use ${(props) => ...}
+	- height: 100vh;
+- live path update
+	- Back-End
+		- update path between date test
+		- search mongodb with date
+			- https://velopert.com/516
+			- Back-End Database schema matching
+				- match mongodb, schema field type
+				- /api/paths/paths.ctrl.js
+				- query
+				  const query = {
+				     journey_time_id: ctx.query.timeid,
+				     date_time: {$gte: "2020-06-09 16:00:00"},
+				  };
+		- api/paths/paths.ctrl.js
+			- add todayRead() api
+				- GET /api/paths/today?time=
+					- time: hh:mm:ss
+				- search today journey path
+					- limit gte time
+		- api/paths/index.js
+			- add router
+				- GET /api/paths/today?time=
+		- models/journey.js
+			- modify Schema, date:Date -> date:String
+	- Front-End
+		- moduels/live.js 
+			- live path redux
+		- api/paths.js
+			- add todayListPath api
+		- modules/index.js
+			- add redux, saga
+				- live, livesaga 
+		- components/LiveMap.js
+			- add kakaomap reference from Map.js
+		- containers/LiveMapContainer.js
+			- add LiveMap reference from MapContainer.js
+			- update live path
+
 
 

@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const JourneySchema = new Schema({
-  date: Date,
+  date: String,
   user_id: Number,
   time_id: String,
   distance: Number,

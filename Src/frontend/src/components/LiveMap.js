@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styled, {css} from "styled-components";
 
-const MapBlock = styled.div`
+const LiveMapBlock = styled.div`
   width: 100%;
   height: 500px;
   background-color: black;
@@ -14,7 +14,7 @@ const MapBlock = styled.div`
     `}
 `;
 
-const Map = ({ path, timeid, jpaths, loading, fullscreen }) => {
+const LiveMap = ({ path, timeid, loading, fullscreen }) => {
   const [_map, setMap] = useState(null);
 
   useEffect(() => {
@@ -41,21 +41,18 @@ const Map = ({ path, timeid, jpaths, loading, fullscreen }) => {
   }, []);
 
   useEffect(() => {
-    if (jpaths) {
-      jpaths.forEach((journey) => {
-        if (journey.show) journey.polyline.setMap(_map);
-        else journey.polyline.setMap(null);
-      });
-    }
-  }, [jpaths, _map]);
+      if (path) {
+          path.setMap(_map);
+      }
+  }, [path, _map]);
 
   return (
     <div>
-      <MapBlock fullscreen={fullscreen}>
+      <LiveMapBlock fullscreen={fullscreen}>
         <div id="map" style={{ width: "100%", height: "100%" }}></div>
-      </MapBlock>
+      </LiveMapBlock>
     </div>
   );
 };
 
-export default Map;
+export default LiveMap;

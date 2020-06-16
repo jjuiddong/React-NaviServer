@@ -11,14 +11,10 @@ const [
   LIST_JOURNEY_FAILURE,
 ] = createRequestActionTypes("journeys/LIST_JOURNEY");
 
-const UPDATE_JOURNEY_SHOW = "journeys/UPDATE_JOURNEY_SHOW";
-
-export const updateJourneyShow = createAction(UPDATE_JOURNEY_SHOW, (shows) => shows);
-
-export const listJourney = createAction(
-  LIST_JOURNEY,
-  ({ username, page }) => ({ username, page })
-);
+export const listJourney = createAction(LIST_JOURNEY, ({ username, page }) => ({
+  username,
+  page,
+}));
 
 const listJourneySaga = createRequestSaga(
   LIST_JOURNEY,
@@ -33,7 +29,6 @@ const initialState = {
   error: null,
   curPage: 1,
   lastPage: 1,
-  shows : [false, false, false, false, false,false, false, false, false, false], 
 };
 
 const journeys = handleActions(
@@ -48,10 +43,6 @@ const journeys = handleActions(
       ...state,
       error,
     }),
-    [UPDATE_JOURNEY_SHOW]: (state, {payload}) => ({
-      ...state,
-      shows: payload.shows,
-    })
   },
   initialState
 );

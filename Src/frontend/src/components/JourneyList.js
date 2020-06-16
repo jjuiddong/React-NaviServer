@@ -58,7 +58,7 @@ const JourneyList = ({
                     onClick={onShowPath}
                     index={i}
                     name={item.date}
-                    checked={shows[i]}
+                    checked={shows.has(item.time_id)? shows.get(item.time_id) : false}
                   ></Checkbox>
                 </Table.Cell>
                 <Table.Cell key={i * 1000 + 2}>jjuiddong</Table.Cell>

@@ -12,15 +12,23 @@ const [
 ] = createRequestActionTypes("paths/LIST_PATH");
 
 const INIT_PATH = "paths/INIT_PATH";
-const REMOVE_PATH = "paths/REMOVE_PATH";
+const SHOW_PATH = "paths/SHOW_PATH";
+const HIDE_PATH = "paths/HIDE_PATH";
+const TOGGLE_SHOW_PATH = "paths/TOGGLE_SHOW_PATH";
 
-export const listPath = createAction(LIST_PATH, ({ username, timeid }) => ({
+export const listPath = createAction(LIST_PATH, ({ username, timeid, date }) => ({
   username,
   timeid,
+  date
 }));
 
 export const initPath = createAction(INIT_PATH);
-export const removePath = createAction(REMOVE_PATH, (timeid) => timeid);
+export const showPath = createAction(SHOW_PATH, (timeid) => timeid);
+export const hidePath = createAction(HIDE_PATH, (timeid) => timeid);
+export const toggleShowPath = createAction(
+  TOGGLE_SHOW_PATH,
+  (timeid) => timeid
+);
 
 const listPathSaga = createRequestSaga(LIST_PATH, pathsAPI.listPath);
 export function* pathsSaga() {
@@ -32,12 +40,12 @@ const initialState = {
   jpaths: [], // journey paths
   timeid: null,
   error: null,
+  shows: new Map(), //timeid, Boolean(show/hide)
 };
 
 const paths = handleActions(
   {
     [INIT_PATH]: (state) => {
-      console.log("init path");
       const API_KEY = process.env.REACT_APP_API_KEY;
       const script = document.createElement("script");
       script.async = true;
@@ -92,9 +100,31 @@ const paths = handleActions(
       ...state,
       error,
     }),
-    [REMOVE_PATH]: (state, { payload }) => {
+    [SHOW_PATH]: (state, { payload }) => {
       const timeid = payload.timeid;
+      return {
+        ...state,
+        shows: new Map(state.shows).set(timeid, true),
+      };
+    },
+    [HIDE_PATH]: (state, { payload }) => {
+      const timeid = payload.timeid;
+      return {
+        ...state,
+        shows: new Map(state.shows).set(timeid, false),
+      };
+    },
+    [TOGGLE_SHOW_PATH]: (state, { payload }) => {
+      const timeid = payload.timeid;
+      var show = false;
+      if (state.shows.has(timeid)) {
+        show = !state.shows.get(timeid);
+      } else {
+        show = true;
+      }
+
       const journey = state.jpaths.find((element) => element.timeid === timeid);
+
       return {
         ...state,
         jpaths: journey
@@ -105,6 +135,7 @@ const paths = handleActions(
                 show: false,
               })
           : state.jpaths,
+        shows: new Map(state.shows).set(timeid, show),
       };
     },
   },

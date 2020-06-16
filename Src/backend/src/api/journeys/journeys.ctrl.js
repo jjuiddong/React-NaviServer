@@ -1,5 +1,5 @@
+//import mongoose from "mongoose";
 import Journey from "../../models/Journey";
-import mongoose from "mongoose";
 
 //const {ObjectId} = mongoose.Types;
 
@@ -13,7 +13,7 @@ export const list = async (ctx) => {
 
   try {
     const journeys = await Journey.find()
-      .sort({ _id: -1 })
+      .sort({ date: -1 })
       .limit(10)
       .skip((page - 1) * 10)
       .exec();
