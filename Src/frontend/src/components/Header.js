@@ -10,7 +10,7 @@ const Header = () => {
   };
 
   return (
-    <Menu stackable size='large'>
+    <Menu size='mini'>
       <Menu.Item>
         <img alt="logo" src="https://semantic-ui.com/images/logo.png" />
       </Menu.Item>

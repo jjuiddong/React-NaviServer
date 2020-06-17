@@ -16,11 +16,14 @@ const SHOW_PATH = "paths/SHOW_PATH";
 const HIDE_PATH = "paths/HIDE_PATH";
 const TOGGLE_SHOW_PATH = "paths/TOGGLE_SHOW_PATH";
 
-export const listPath = createAction(LIST_PATH, ({ username, timeid, date }) => ({
-  username,
-  timeid,
-  date
-}));
+export const listPath = createAction(
+  LIST_PATH,
+  ({ username, timeid, date }) => ({
+    username,
+    timeid,
+    date,
+  })
+);
 
 export const initPath = createAction(INIT_PATH);
 export const showPath = createAction(SHOW_PATH, (timeid) => timeid);
@@ -60,40 +63,30 @@ const paths = handleActions(
     [LIST_PATH_SUCCESS]: (state, { payload: path, meta: response }) => {
       const { kakao } = window;
       const timeid = response.headers["timeid"];
-      const journey = state.jpaths.find((element) => element.timeid === timeid);
-      var show = false;
-      var polyline = null;
-      if (journey) {
-        // find journey path
-        show = true;
-      } else {
-        var linePath = [];
-        path.map((item) =>
-          linePath.push(
-            new kakao.maps.LatLng(parseFloat(item.lat), parseFloat(item.lon))
-          )
-        );
+      var linePath = [];
+      path.map((item) =>
+        linePath.push(
+          new kakao.maps.LatLng(parseFloat(item.lat), parseFloat(item.lon))
+        )
+      );
 
-        polyline = new kakao.maps.Polyline({
-          path: linePath,
-          strokeWeight: 5,
-          strokeColor: "#FF0000",
-          strokeOpacity: 1.0,
-          strokeStyle: "solid",
-        });
-      }
+      var polyline = new kakao.maps.Polyline({
+        path: linePath,
+        strokeWeight: 5,
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeStyle: "solid",
+      });
 
       return {
         ...state,
-        jpaths: show
-          ? state.jpaths
-              .filter((element) => element.timeid !== timeid)
-              .concat({ ...journey, show: true })
-          : state.jpaths.concat({
-              show: true,
-              timeid: timeid,
-              polyline: polyline,
-            }),
+        jpaths: state.jpaths
+          .filter((element) => element.timeid !== timeid)
+          .concat({
+            show: true,
+            timeid: timeid,
+            polyline: polyline,
+          }),
       };
     },
     [LIST_PATH_FAILURE]: (state, { payload: error }) => ({

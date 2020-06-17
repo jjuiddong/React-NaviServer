@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Map from "../components/Map";
 import { initPath} from "../modules/paths";
-import moment from "moment";
 
 const MapContainer = ({ fullscreen }) => {
   const dispatch = useDispatch();
@@ -20,12 +19,6 @@ const MapContainer = ({ fullscreen }) => {
     dispatch(initPath());
   }, [dispatch]);
 
-  // const onClick = () => {
-  //   const timeid = "20200609092148505";
-  //   const date = moment().format("YYYY-MM-DDTHH:mm:ss");
-  //   dispatch(listPath({ timeid, date }));
-  // };
-
   return (
     <div>
       <Map
@@ -35,7 +28,6 @@ const MapContainer = ({ fullscreen }) => {
         loading={loading}
         fullscreen={fullscreen}
       ></Map>
-      {/* <button onClick={onClick}>get path</button> */}
     </div>
   );
 };

@@ -15,17 +15,18 @@ Navigation Webserver
 			- edit landmark comment
 
 	- Live Page
-		- map
-			- journey path
+		-★ map
+			-★ journey path
 			- tooltip
 				- time
 				- distance
-		- update path realtime (10 sec)
+		-★ update path realtime (10 sec)
 
-	- Detail Page
-		- map
-			- journey path
-			- show all journey path which check in journey page
+	-★ Detail Page
+		-★ map
+			-★ journey path
+			-★ show all journey path which check in journey page
+			- tooltip
 
 - Back-End
 	- api

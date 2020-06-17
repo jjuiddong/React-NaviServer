@@ -10,7 +10,7 @@ const LiveMapBlock = styled.div`
   ${(props) =>
     props.fullscreen &&
     css`
-      height: 90vh;
+      height: 80vh;
     `}
 `;
 
@@ -43,6 +43,12 @@ const LiveMap = ({ path, timeid, loading, fullscreen }) => {
   useEffect(() => {
       if (path) {
           path.setMap(_map);
+
+          // camera move to last position
+          if (_map && (path.getPath().length > 0)) {
+            _map.panTo(path.getPath()[path.getPath().length - 1]
+            );
+          }
       }
   }, [path, _map]);
 

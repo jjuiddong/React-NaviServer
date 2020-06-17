@@ -4,7 +4,7 @@ import styled, {css} from "styled-components";
 
 const MapBlock = styled.div`
   width: 100%;
-  height: 500px;
+  height: 400px;
   background-color: black;
 
   ${(props) =>

@@ -217,6 +217,18 @@ Navigation WebServer with React
 		- containers/LiveMapContainer.js
 			- add LiveMap reference from MapContainer.js
 			- update live path
+- FrontEnd, BackEnd integrate
+	- Node.js, React App Integrate
+	- Front-End
+		- yarn build
+	- Back-End
+		- yarn add koa-static
+			- to access front-end build data
+		- main.js
+			- import koa-static, path, koa-send
+			- buildDirectory
+	- Kakao developers
+		- add site domain, 4000 port
 
 
 

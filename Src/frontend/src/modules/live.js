@@ -15,8 +15,7 @@ const INIT_LIVE_PATH = "live/INIT_LIVE_PATH";
 
 export const listLivePath = createAction(
   LIST_LIVE_PATH,
-  ({ username, time }) => ({
-    username,
+  ({ time }) => ({
     time,
   })
 );
@@ -54,8 +53,6 @@ const live = handleActions(
     [LIST_LIVE_PATH_SUCCESS]: (state, { payload: path, meta: response }) => {
       const { kakao } = window;
       //const timeid = response.headers["timeid"];
-
-      console.log(path);
 
       var linePath = [];
       if (path && state.path) {

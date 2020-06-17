@@ -10,7 +10,7 @@ export const listPath = ({ username, timeid, date }) => {
   return client.get(`/api/paths?${queryString}`);
 };
 
-export const listTodayPath = ({ username, time }) => {
+export const listTodayPath = ({ time }) => {
   const queryString = qs.stringify({
     time,
   });
