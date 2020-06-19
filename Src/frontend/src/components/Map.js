@@ -18,26 +18,15 @@ const Map = ({ path, timeid, jpaths, loading, fullscreen }) => {
   const [_map, setMap] = useState(null);
 
   useEffect(() => {
-    const API_KEY = process.env.REACT_APP_API_KEY;
-    const script = document.createElement("script");
-    script.async = true;
-    script.src =
-      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=" +
-      API_KEY +
-      "&autoload=false";
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      const { kakao } = window;
-      kakao.maps.load(() => {
-        let el = document.getElementById("map");
-        let map = new kakao.maps.Map(el, {
-          center: new kakao.maps.LatLng(37.450701, 126.970667),
-          level: 13,
-        });
-        setMap(map);
+    const { kakao } = window;
+    kakao.maps.load(() => {
+      let el = document.getElementById("map");
+      let map = new kakao.maps.Map(el, {
+        center: new kakao.maps.LatLng(37.450701, 126.970667),
+        level: 13,
       });
-    };
+      setMap(map);
+    });
   }, []);
 
   useEffect(() => {

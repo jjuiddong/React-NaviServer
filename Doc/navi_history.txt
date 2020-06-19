@@ -229,6 +229,17 @@ Navigation WebServer with React
 			- buildDirectory
 	- Kakao developers
 		- add site domain, 4000 port
-
+- Refactoring
+	- live map redux
+		- kakaomap redux
+		- kakao api static load with .env
+			- index.html
+				- <script type="text/javascript" src="%REACT_APP_KAKAOMAP_API_URL%"></script>			
+	- live path buffer redux
+		- seperate live path, path buffer to optimize redux
+			- minimize copy path data
+	- redux timer
+		- https://stackoverflow.com/questions/57542264/how-to-setinterval-for-every-5-second-render-with-react-hook-useeffect-in-react
+		
 
 

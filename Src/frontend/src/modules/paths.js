@@ -11,7 +11,6 @@ const [
   LIST_PATH_FAILURE,
 ] = createRequestActionTypes("paths/LIST_PATH");
 
-const INIT_PATH = "paths/INIT_PATH";
 const SHOW_PATH = "paths/SHOW_PATH";
 const HIDE_PATH = "paths/HIDE_PATH";
 const TOGGLE_SHOW_PATH = "paths/TOGGLE_SHOW_PATH";
@@ -25,7 +24,6 @@ export const listPath = createAction(
   })
 );
 
-export const initPath = createAction(INIT_PATH);
 export const showPath = createAction(SHOW_PATH, (timeid) => timeid);
 export const hidePath = createAction(HIDE_PATH, (timeid) => timeid);
 export const toggleShowPath = createAction(
@@ -39,7 +37,6 @@ export function* pathsSaga() {
 }
 
 const initialState = {
-  path: null,
   jpaths: [], // journey paths
   timeid: null,
   error: null,
@@ -48,18 +45,6 @@ const initialState = {
 
 const paths = handleActions(
   {
-    [INIT_PATH]: (state) => {
-      const API_KEY = process.env.REACT_APP_API_KEY;
-      const script = document.createElement("script");
-      script.async = true;
-      script.src =
-        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=" +
-        API_KEY +
-        "&autoload=false";
-      document.head.appendChild(script);
-
-      return { ...state };
-    },
     [LIST_PATH_SUCCESS]: (state, { payload: path, meta: response }) => {
       const { kakao } = window;
       const timeid = response.headers["timeid"];

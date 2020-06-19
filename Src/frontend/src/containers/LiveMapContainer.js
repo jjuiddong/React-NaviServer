@@ -1,19 +1,23 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LiveMap from "../components/LiveMap";
-import { initLivePath, listLivePath } from "../modules/live";
+import { listLivePath, clearLivePath } from "../modules/live";
+import { listTodayPath, addTodayPath } from "../modules/today";
 import moment from "moment";
 
 const LiveMapContainer = ({ fullscreen }) => {
   var _prevTime = "";
-  //const [_prevTime, setPrevTime] = useState("");
+  var timerId = null;
   const dispatch = useDispatch();
-  const { path, timeid, loading } = useSelector(({ live, paths, loading }) => ({
-    path: live.path,
-    timeid: live.timeid,
-    error: live.error,
-    loading: loading["live/LIST_LIVE_PATH"],
-  }));
+  const { livePath, path, timeid, loading } = useSelector(
+    ({ live, paths, loading, today }) => ({
+      path: today.path,
+      livePath: live.path,
+      timeid: live.timeid,
+      error: live.error,
+      loading: loading["live/LIST_LIVE_PATH"],
+    })
+  );
 
   // update live path
   const updateLivePath = useCallback(() => {
@@ -27,20 +31,36 @@ const LiveMapContainer = ({ fullscreen }) => {
   useEffect(() => {
     _prevTime = moment().format("HH:mm:ss");
 
-    dispatch(initLivePath()); // initiailize live redux
-    dispatch(listLivePath({})); // request all journey path
-    setInterval(updateLivePath, 10000);
+    dispatch(listTodayPath({})); // request today path
+    const timerId = setInterval(updateLivePath, 5000);
+    return () => clearInterval(timerId);
   }, [dispatch, updateLivePath]);
+
+  // too much live path, copy to path, and then remove live path
+  useEffect(() => {
+    if (path && path.getPath()) {
+      console.log(path.getPath().length);
+    }
+    if (livePath && livePath.getPath()) {
+      console.log(livePath.getPath().length);
+    }
+
+    if (livePath && livePath.getPath().length > 10) {
+      var pathLine = livePath.getPath();
+      dispatch(addTodayPath({pathLine}));
+      dispatch(clearLivePath({}));
+    }
+  }, [path, livePath, dispatch]);
 
   return (
     <div>
       <LiveMap
         path={path}
+        livePath={livePath}
         timeid={timeid}
         loading={loading}
         fullscreen={true}
       ></LiveMap>
-      {/* <button onClick={onClick}>get path</button> */}
     </div>
   );
 };
