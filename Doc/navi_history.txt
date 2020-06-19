@@ -240,6 +240,7 @@ Navigation WebServer with React
 			- minimize copy path data
 	- redux timer
 		- https://stackoverflow.com/questions/57542264/how-to-setinterval-for-every-5-second-render-with-react-hook-useeffect-in-react
-		
+		- return close interval function
+
 
 
