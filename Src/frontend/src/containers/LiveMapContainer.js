@@ -7,12 +7,11 @@ import moment from "moment";
 
 const LiveMapContainer = ({ fullscreen }) => {
   var _prevTime = "";
-  var timerId = null;
   const dispatch = useDispatch();
-  const { livePath, path, timeid, loading } = useSelector(
-    ({ live, paths, loading, today }) => ({
-      path: today.path,
-      livePath: live.path,
+  const { liveJourney, todayJourney, timeid, loading } = useSelector(
+    ({ live, loading, today }) => ({
+      todayJourney: today,
+      liveJourney: live,
       timeid: live.timeid,
       error: live.error,
       loading: loading["live/LIST_LIVE_PATH"],
@@ -31,32 +30,33 @@ const LiveMapContainer = ({ fullscreen }) => {
   useEffect(() => {
     _prevTime = moment().format("HH:mm:ss");
 
+    dispatch(clearLivePath({}));
     dispatch(listTodayPath({})); // request today path
     const timerId = setInterval(updateLivePath, 5000);
     return () => clearInterval(timerId);
   }, [dispatch, updateLivePath]);
 
-  // too much live path, copy to path, and then remove live path
+  // too much live path, copy to today path, and then remove live path
   useEffect(() => {
-    if (path && path.getPath()) {
-      console.log(path.getPath().length);
+    if (todayJourney.polyLine && todayJourney.polyLine.getPath()) {
+      console.log(todayJourney.polyLine.getPath().length);
     }
-    if (livePath && livePath.getPath()) {
-      console.log(livePath.getPath().length);
+    if (liveJourney.polyLine && liveJourney.polyLine.getPath()) {
+      console.log(liveJourney.polyLine.getPath().length);
     }
 
-    if (livePath && livePath.getPath().length > 10) {
-      var pathLine = livePath.getPath();
-      dispatch(addTodayPath({pathLine}));
+    if (liveJourney.polyLine && liveJourney.polyLine.getPath().length > 100) {
+      //var pathLine = liveJourney.polyLine.getPath();
+      dispatch(addTodayPath({liveJourney}));
       dispatch(clearLivePath({}));
     }
-  }, [path, livePath, dispatch]);
+  }, [liveJourney, todayJourney, dispatch]);
 
   return (
     <div>
       <LiveMap
-        path={path}
-        livePath={livePath}
+        todayJourney={todayJourney}
+        liveJourney={liveJourney}
         timeid={timeid}
         loading={loading}
         fullscreen={true}

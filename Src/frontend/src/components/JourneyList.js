@@ -71,7 +71,7 @@ const JourneyList = ({
                 <Table.Cell key={i * 1000 + 5}>
                   {(item.journey_time / (1000 * 60 * 60)).toFixed(1)} Hour
                 </Table.Cell>
-                <Table.Cell key={i * 1000 + 6}>Detail</Table.Cell>
+                <Table.Cell key={i * 1000 + 6}>{item.time_id}</Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>

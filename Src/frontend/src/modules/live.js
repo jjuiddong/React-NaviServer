@@ -28,9 +28,9 @@ export function* liveSaga() {
 }
 
 const initialState = {
-  map: null,
-  path: null,
   timeid: null,
+  path: null,
+  polyLine: null,
   error: null,
 };
 
@@ -40,19 +40,25 @@ const live = handleActions(
       const { kakao } = window;
       //const timeid = response.headers["timeid"];
 
+      var npath = [];
       var polyLine = null;
       if (path.length > 0) {
         var linePath = [];
-        if (state.path) {
-          linePath = Array.from(state.path.getPath());
-          state.path.setMap(null);
+        if (state.polyLine) {
+          linePath = Array.from(state.polyLine.getPath());
+          npath = Array.from(state.path);
+          state.polyLine.setMap(null);
         }
 
-        path.map((item) =>
+        path.forEach((element) => {
           linePath.push(
-            new kakao.maps.LatLng(parseFloat(item.lat), parseFloat(item.lon))
-          )
-        );
+            new kakao.maps.LatLng(
+              parseFloat(element.lat),
+              parseFloat(element.lon)
+            )
+          );
+          npath.push(element);
+        });
 
         polyLine = new kakao.maps.Polyline({
           path: linePath,
@@ -61,9 +67,52 @@ const live = handleActions(
           strokeOpacity: 1.0,
           strokeStyle: "solid",
         });
+
+        var markers = [];
+        var timeLines = [];
+        var hour = 0;
+        var prevTime = path.length > 0 ? new Date(path[0].date_time) : 0;
+        for (var i = 0; i < path.length; ++i) {
+          var delta =
+            new Date(path[i].date_time).getTime() - prevTime.getTime();
+          // 1 hour
+          if (i === 0 || delta > Math.floor(60 * 60 * 1000)) {
+            var markerPosition = new kakao.maps.LatLng(
+              path[i].lat,
+              path[i].lon
+            );
+
+            var marker = new kakao.maps.Marker({
+              position: markerPosition,
+            });
+            markers.push(marker);
+
+            var content =
+              '<div class ="label"><span class="left"></span><span class="center">' +
+              hour +
+              "h. " +
+              path[i].date_time +
+              '</span><span class="right"></span></div>';
+            var customOverlay = new kakao.maps.CustomOverlay({
+              position: markerPosition,
+              content: content,
+            });
+            timeLines.push(customOverlay);
+
+            ++hour;
+            prevTime = new Date(path[i].date_time);
+          }
+        } // ~for path
       }
 
-      if (path.length > 0) return { ...state, path: polyLine };
+      if (path.length > 0)
+        return {
+          ...state,
+          path: npath,
+          polyLine: polyLine,
+          markers: markers,
+          timeLines: timeLines,
+        };
       return { ...state };
     },
     [LIST_LIVE_PATH_FAILURE]: (state, { payload: error }) => ({
@@ -71,10 +120,10 @@ const live = handleActions(
       error,
     }),
     [CLEAR_LIVE_PATH]: (state, { payload }) => {
-      if (state.path) {
-        state.path.setMap(null);
+      if (state.polyLine) {
+        state.polyLine.setMap(null);
       }
-      return { ...state, path: null };
+      return { ...state, polyLine: null, path: null };
     },
   },
   initialState

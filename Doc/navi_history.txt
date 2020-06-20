@@ -230,17 +230,32 @@ Navigation WebServer with React
 	- Kakao developers
 		- add site domain, 4000 port
 - Refactoring
-	- live map redux
-		- kakaomap redux
-		- kakao api static load with .env
-			- index.html
-				- <script type="text/javascript" src="%REACT_APP_KAKAOMAP_API_URL%"></script>			
-	- live path buffer redux
-		- seperate live path, path buffer to optimize redux
-			- minimize copy path data
-	- redux timer
-		- https://stackoverflow.com/questions/57542264/how-to-setinterval-for-every-5-second-render-with-react-hook-useeffect-in-react
-		- return close interval function
-
-
-
+	- Front-End
+		- live map redux
+			- kakaomap redux
+			- kakao api static load with .env
+				- index.html
+					- <script type="text/javascript" src="%REACT_APP_KAKAOMAP_API_URL%"></script>			
+		- live path buffer redux
+			- seperate live path, path buffer to optimize redux
+				- minimize copy path data
+		- redux timer
+			- https://stackoverflow.com/questions/57542264/how-to-setinterval-for-every-5-second-render-with-react-hook-useeffect-in-react
+			- return () => clearInterval(intervalId)
+- Marker, Timeline Tooltip
+	- Front-End
+		- journey path, live path
+			- containers/LiveMapContainer.js
+			- containers/MapContainer.js
+			- compoents/LiveMap.js
+			- compoents/Map.js
+			- add semantic-ui checkbox
+		- add redux markers, timelines
+			- modules/paths.js, live.js, today.js
+			- refactoring module redux
+				- path, polyline, markers, timelines
+		- show/hide marker, timeline
+		- live current position tooltip
+			- time, distance
+			- calc total journey time
+			- calc total journey distance

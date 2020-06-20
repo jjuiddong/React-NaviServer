@@ -63,6 +63,38 @@ const paths = handleActions(
         strokeStyle: "solid",
       });
 
+      var markers = [];
+      var timeLines = [];
+      var hour = 0;
+      var prevTime = path.length > 0 ? new Date(path[0].date_time) : 0;
+      for (var i = 0; i < path.length; ++i) {
+        var delta = new Date(path[i].date_time).getTime() - prevTime.getTime();
+        // 1 hour
+        if (i === 0 || delta > Math.floor(60 * 60 * 1000)) {
+          var markerPosition = new kakao.maps.LatLng(path[i].lat, path[i].lon);
+
+          var marker = new kakao.maps.Marker({
+            position: markerPosition,
+          });
+          markers.push(marker);
+
+          var content =
+            '<div class ="label"><span class="left"></span><span class="center">' +
+            hour +
+            "h. " +
+            path[i].date_time +
+            '</span><span class="right"></span></div>';
+          var customOverlay = new kakao.maps.CustomOverlay({
+            position: markerPosition,
+            content: content,
+          });
+          timeLines.push(customOverlay);
+
+          ++hour;
+          prevTime = new Date(path[i].date_time);
+        }
+      } // ~for path
+
       return {
         ...state,
         jpaths: state.jpaths
@@ -71,6 +103,8 @@ const paths = handleActions(
             show: true,
             timeid: timeid,
             polyline: polyline,
+            markers: markers,
+            timeLines: timeLines,
           }),
       };
     },
