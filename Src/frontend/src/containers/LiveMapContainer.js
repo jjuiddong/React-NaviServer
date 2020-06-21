@@ -38,15 +38,14 @@ const LiveMapContainer = ({ fullscreen }) => {
 
   // too much live path, copy to today path, and then remove live path
   useEffect(() => {
-    if (todayJourney.polyLine && todayJourney.polyLine.getPath()) {
-      console.log(todayJourney.polyLine.getPath().length);
-    }
-    if (liveJourney.polyLine && liveJourney.polyLine.getPath()) {
-      console.log(liveJourney.polyLine.getPath().length);
-    }
+    // if (todayJourney.polyLine && todayJourney.polyLine.getPath()) {
+    //   console.log(todayJourney.polyLine.getPath().length);
+    // }
+    // if (liveJourney.polyLine && liveJourney.polyLine.getPath()) {
+    //   console.log(liveJourney.polyLine.getPath().length);
+    // }
 
     if (liveJourney.polyLine && liveJourney.polyLine.getPath().length > 100) {
-      //var pathLine = liveJourney.polyLine.getPath();
       dispatch(addTodayPath({liveJourney}));
       dispatch(clearLivePath({}));
     }

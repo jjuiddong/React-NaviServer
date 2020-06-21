@@ -1,7 +1,7 @@
 // Kakao map template
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import "./Map.css";
+import "./css/Map.css";
 import { Checkbox } from "semantic-ui-react";
 
 const MapBlock = styled.div`

@@ -259,3 +259,8 @@ Navigation WebServer with React
 			- time, distance
 			- calc total journey time
 			- calc total journey distance
+- show Marker, TimeLines bugfix
+	- useEffect dependency parameter duplicate bug
+	- overlay zdepth
+		- zIndex parameter setting
+

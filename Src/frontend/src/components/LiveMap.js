@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
-import "./LiveMap.css";
+import "./css/LiveMap.css";
 import { Checkbox } from "semantic-ui-react";
 
 const LiveMapBlock = styled.div`
@@ -11,7 +11,7 @@ const LiveMapBlock = styled.div`
   ${(props) =>
     props.fullscreen &&
     css`
-      height: 80vh;
+      height: 75vh;
     `}
 `;
 
@@ -33,7 +33,10 @@ const LiveMap = ({
 }) => {
   const [_map, setMap] = useState(null);
   const [_overlay, setOverlay] = useState(null);
+  const [_showMarker, setShowMarker] = useState(true);
+  const [_showTimeLine, setShowTimeLine] = useState(true);
 
+  // update overlay
   useEffect(() => {
     const tpl = todayJourney.polyLine;
     const lpl = liveJourney.polyLine;
@@ -82,6 +85,7 @@ const LiveMap = ({
     if (!_overlay) {
       var customOverlay = new kakao.maps.CustomOverlay({
         map: _map,
+        zIndex: 100,
         position: curPos,
         content: content,
       });
@@ -105,6 +109,7 @@ const LiveMap = ({
     });
   }, []);
 
+  // update map camera, tooltip
   useEffect(() => {
     const tpl = todayJourney.polyLine;
     const lpl = liveJourney.polyLine;
@@ -122,21 +127,40 @@ const LiveMap = ({
         : tpl && tpl.getPath().length > 0
         ? tpl.getPath()[tpl.getPath().length - 1]
         : null;
-
+    
       if (curPos && _map) _map.panTo(curPos);
     }
+
   }, [todayJourney.polyLine, liveJourney.polyLine, _map]);
+
+
+  // show/hide marker, timeline
+  useEffect(() => {
+    if (todayJourney.markers) {
+      for (var i = 0; i < todayJourney.markers.length; ++i) {
+        if (_showMarker && !todayJourney.markers[i].getMap())
+          todayJourney.markers[i].setMap(_map);
+        else if (!_showMarker)
+          todayJourney.markers[i].setMap(null);
+      }
+    }
+    if (todayJourney.timeLines) {
+      for (var i = 0; i < todayJourney.timeLines.length; ++i) {
+        if (_showTimeLine && !todayJourney.timeLines[i].getMap())
+          todayJourney.timeLines[i].setMap(_map);
+        else if (!_showTimeLine)
+          todayJourney.timeLines[i].setMap(null);
+     }     
+    }
+  }, [todayJourney.markers, todayJourney.timeLines, _map, 
+    _showMarker, _showTimeLine]);
 
   // show/hide marker, timeline
   const onCheck = (event, data) => {
     if (data.label === "Marker") {
-      for (var i = 0; i < todayJourney.markers.length; ++i) {
-        todayJourney.markers[i].setMap(data.checked ? _map : null);
-      }
+      setShowMarker(data.checked);
     } else if (data.label === "TimeLine") {
-      for (var i = 0; i < todayJourney.timeLines.length; ++i) {
-        todayJourney.timeLines[i].setMap(data.checked ? _map : null);
-      }
+      setShowTimeLine(data.checked);
     }
   };
 

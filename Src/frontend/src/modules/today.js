@@ -30,6 +30,8 @@ export function* todaySaga() {
 const initialState = {
   path: null,
   polyLine: null, // kakao.maps.Polyline
+  markers: null,
+  timeLines: null,
   error: null,
 };
 
@@ -142,7 +144,7 @@ const today = handleActions(
     [LIST_TODAY_PATH_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
-    }),
+    }),    
   },
   initialState
 );
