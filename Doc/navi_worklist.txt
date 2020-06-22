@@ -1,37 +1,38 @@
 
 Navigation Webserver
 
-- Font-End
-	- Journey Page
+-★ Font-End
+	-★ Journey Page
 		-★ journey list
 			- index, id, date, distance, time
 			- check show/hide journey path
-		- landmark list
+		-★ landmark list
 			-★ index, id, date, address, comment
-		- map
+		-★ map
 			-★ journey path
 		- dialog
 			- detail journey info
 			- edit landmark comment
 
-	- Live Page
+	-★ Live Page
 		-★ map
 			-★ journey path
-			- tooltip
-				- time
-				- distance
+			-★ tooltip
+				-★ time
+				-★ distance
 		-★ update path realtime (10 sec)
 
 	-★ Detail Page
 		-★ map
 			-★ journey path
 			-★ show all journey path which check in journey page
-			- tooltip
+			-★ tooltip
 
 - Back-End
-	- api
+	-★ api
 		-★ Journey List
 		-★ Landmark List
 		-★ Path List
+		-★ Live Path List
 
 -------------------------------------------------------------
