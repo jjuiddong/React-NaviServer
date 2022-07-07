@@ -12,7 +12,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^9.0.1",
     "koa-static": "^5.0.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.9.18",
     "nodemon": "^2.0.4",
     "react": "^16.13.1",
