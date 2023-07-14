@@ -19,6 +19,7 @@ Navigation WebServer with React
 - Back-End
 	- create koa webserver with react-app
 	- add koa, mongoose, dotenv, esm, nodemon
+	- add koa-bodyparser
 	- add koa-router
 	- setup koa webserver start
 	- .env config file
@@ -28,6 +29,9 @@ Navigation WebServer with React
 	- create jsconfig.json
 		- to coding productivity
 		- require -> import
+	- modify package.json
+		- add yarn start:dev with esm
+		- "scripts" : ["start:dev": "nodemon --watch src/ -r esm src/index.js"]
 	- index.js, main.js setting
 		- read .env file and apply
 	- access mongodb
@@ -43,10 +47,11 @@ Navigation WebServer with React
 		- koa-router Router
 	- create api/index.js
 		- use journeys router
-	- ./index.js
+	- ./main.js
 		- add root router
 		- use api routerr
 			- root.use('./api', api.routes())
+			- app.use(bodyParser());
 			- app.use(root.routes()).use(root.allowedMethods());
 	- test journeys api with postman
 		- localhost:4000/api/journeys/
